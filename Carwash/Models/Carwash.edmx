@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CarwashModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="CarwashModelStoreContainer">
+          <EntitySet Name="Empleado" EntityType="CarwashModel.Store.Empleado" store:Type="Tables" Schema="car" />
+          <EntitySet Name="Persona" EntityType="CarwashModel.Store.Persona" store:Type="Tables" Schema="core" />
+          <AssociationSet Name="FK_Persona_Empleado" Association="CarwashModel.Store.FK_Persona_Empleado">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Empleado_id" />
+          </Key>
+          <Property Name="Empleado_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Persona_id" Type="int" Nullable="false" />
+          <Property Name="Salario_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Persona_id" />
+          </Key>
+          <Property Name="Persona_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TipoDocumento" Type="char" Nullable="false" MaxLength="2" />
+          <Property Name="Identificacion" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="Nombre" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="Apellido" Type="varchar" MaxLength="30" />
+          <Property Name="Correo" Type="varchar" MaxLength="100" />
+          <Property Name="Telefono" Type="varchar" MaxLength="15" />
+          <Property Name="Direccion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Persona_Empleado">
+          <End Role="Persona" Type="CarwashModel.Store.Persona" Multiplicity="1" />
+          <End Role="Empleado" Type="CarwashModel.Store.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Persona_id" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="Persona_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarwashModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="CarwashEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Empleado" EntityType="CarwashModel.Empleado" />
+          <EntitySet Name="Persona" EntityType="CarwashModel.Persona" />
+          <AssociationSet Name="FK_Persona_Empleado" Association="CarwashModel.FK_Persona_Empleado">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Empleado_id" />
+          </Key>
+          <Property Type="Int32" Name="Empleado_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Persona_id" Nullable="false" />
+          <Property Type="Int32" Name="Salario_id" />
+          <NavigationProperty Name="Persona" Relationship="CarwashModel.FK_Persona_Empleado" FromRole="Empleado" ToRole="Persona" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Persona_id" />
+          </Key>
+          <Property Type="Int32" Name="Persona_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Apellido" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Correo" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Telefono" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Direccion" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Empleado" Relationship="CarwashModel.FK_Persona_Empleado" FromRole="Persona" ToRole="Empleado" />
+        </EntityType>
+        <Association Name="FK_Persona_Empleado">
+          <End Type="CarwashModel.Persona" Role="Persona" Multiplicity="1" />
+          <End Type="CarwashModel.Empleado" Role="Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Persona_id" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="Persona_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarwashModelStoreContainer" CdmEntityContainer="CarwashEntities">
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="CarwashModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="Salario_id" ColumnName="Salario_id" />
+                <ScalarProperty Name="Persona_id" ColumnName="Persona_id" />
+                <ScalarProperty Name="Empleado_id" ColumnName="Empleado_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persona">
+            <EntityTypeMapping TypeName="CarwashModel.Persona">
+              <MappingFragment StoreEntitySet="Persona">
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+                <ScalarProperty Name="Persona_id" ColumnName="Persona_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Carwash">
+        <EntityTypeShape EntityType="CarwashModel.Empleado" Width="1.5" PointX="3" PointY="1.5" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="CarwashModel.Persona" Width="1.5" PointX="0.75" PointY="1" Height="2.7494921874999996" />
+        <AssociationConnector Association="CarwashModel.FK_Persona_Empleado" >
+          <ConnectorPoint PointX="2.25" PointY="2.3939925130208337" />
+          <ConnectorPoint PointX="3" PointY="2.3939925130208337" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

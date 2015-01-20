@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarwashModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="CarwashEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Empleado" EntityType="CarwashModel.Empleado" />
+    <EntitySet Name="Persona" EntityType="CarwashModel.Persona" />
+    <AssociationSet Name="FK_Persona_Empleado" Association="CarwashModel.FK_Persona_Empleado">
+      <End Role="Persona" EntitySet="Persona" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="Empleado_id" />
+    </Key>
+    <Property Type="Int32" Name="Empleado_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="Persona_id" Nullable="false" />
+    <Property Type="Int32" Name="Salario_id" />
+    <NavigationProperty Name="Persona" Relationship="CarwashModel.FK_Persona_Empleado" FromRole="Empleado" ToRole="Persona" />
+  </EntityType>
+  <EntityType Name="Persona">
+    <Key>
+      <PropertyRef Name="Persona_id" />
+    </Key>
+    <Property Type="Int32" Name="Persona_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="TipoDocumento" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+    <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Apellido" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Correo" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Telefono" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Direccion" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Empleado" Relationship="CarwashModel.FK_Persona_Empleado" FromRole="Persona" ToRole="Empleado" />
+  </EntityType>
+  <Association Name="FK_Persona_Empleado">
+    <End Type="CarwashModel.Persona" Role="Persona" Multiplicity="1" />
+    <End Type="CarwashModel.Empleado" Role="Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona">
+        <PropertyRef Name="Persona_id" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="Persona_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
